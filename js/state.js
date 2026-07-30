@@ -3,7 +3,7 @@ import { ORDRE_ESTAT } from "./data/estats.js";
 import { queueSave } from "./sync.js";
 import { render } from "./render.js";
 
-export let STATE={ data:{}, plan:{}, extra:{} };
+export let STATE={ data:{}, plan:{}, extra:{}, forest:{} };
 
 export const getT=(id)=> STATE.data[id] || EMPTY;
 
@@ -34,4 +34,7 @@ export function removeExtraBloc(dayKey,idx){
   delete STATE.plan[`${dayKey}-extra${count-1}`];
   STATE.extra[dayKey]=Math.max(0,count-1);
   queueSave(); render();
+}
+export function setForest(dayKey,camp,val){
+  STATE.forest[dayKey]={...(STATE.forest[dayKey]||{}),[camp]:val}; queueSave();
 }

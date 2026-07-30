@@ -1,5 +1,5 @@
 import { $ } from "./helpers.js";
-import { toggleEtapa, ciclarEstat, setEstat, setCel, toggleFet, addExtraBloc, removeExtraBloc } from "./state.js";
+import { toggleEtapa, ciclarEstat, setEstat, setCel, toggleFet, addExtraBloc, removeExtraBloc, setForest } from "./state.js";
 import { render, setVista } from "./render.js";
 import { setOrdreTemes, setFiltreTemes } from "./views/temes.js";
 import { setBlocPrio } from "./views/prioritat.js";
@@ -27,9 +27,10 @@ export function wireEvents(){
   });
 
   $("#view").addEventListener("change",e=>{
-    const el=e.target.closest("[data-act='cel']"); if(!el)return;
-    setCel(el.dataset.k,el.dataset.camp,el.value);
-    render();
+    const el=e.target.closest("[data-act]"); if(!el)return;
+    const a=el.dataset.act;
+    if(a==="cel"){ setCel(el.dataset.k,el.dataset.camp,el.value); render(); }
+    else if(a==="forest"){ setForest(el.dataset.k,el.dataset.camp,el.value); render(); }
   });
 
   $("#btn-logout").addEventListener("click",()=>{

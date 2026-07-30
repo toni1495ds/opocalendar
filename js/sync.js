@@ -30,7 +30,7 @@ export function queueSave(){
   setSync("wait","Desant…");
   clearTimeout(saveTimer);
   saveTimer=setTimeout(async()=>{
-    try{ await setDoc(docRef,{data:STATE.data,plan:STATE.plan,extra:STATE.extra,updated:Date.now()},{merge:true}); setSync("ok","Sincronitzat"); }
+    try{ await setDoc(docRef,{data:STATE.data,plan:STATE.plan,extra:STATE.extra,forest:STATE.forest,updated:Date.now()},{merge:true}); setSync("ok","Sincronitzat"); }
     catch(e){ console.error(e); setSync("err","Error desant"); }
   },600);
 }
@@ -43,7 +43,7 @@ export function connectDoc(){
     if(snap.exists()){
       const d=snap.data();
       // només sobreescrivim si ve del núvol i no estem enmig d'un desat
-      STATE.data=d.data||{}; STATE.plan=d.plan||{}; STATE.extra=d.extra||{};
+      STATE.data=d.data||{}; STATE.plan=d.plan||{}; STATE.extra=d.extra||{}; STATE.forest=d.forest||{};
       render();
     }
     setSync("ok","Sincronitzat");

@@ -4,6 +4,7 @@ import { viewAvui } from "./views/avui.js";
 import { viewTemes } from "./views/temes.js";
 import { viewPrioritat } from "./views/prioritat.js";
 import { viewCalendari } from "./views/calendari.js";
+import { viewEstadistiques } from "./views/estadistiques.js";
 
 export let vista="avui";
 export function setVista(v){ vista=v; }
@@ -23,5 +24,6 @@ export function render(){
   else if(vista==="temes")v.innerHTML=viewTemes();
   else if(vista==="prioritat")v.innerHTML=viewPrioritat();
   else if(vista==="calendari")v.innerHTML=viewCalendari();
+  else if(vista==="estadistiques")v.innerHTML=viewEstadistiques();
   document.querySelectorAll("#tabs button").forEach(b=>b.classList.toggle("on",b.dataset.v===vista));
 }

@@ -70,7 +70,13 @@ export function viewCalendari(){
       <div class="blocs">`;
     BLOCS.forEach(bloc=>{ h+=blocHTML(`${dayKey}-${bloc}`,bloc,dayKey,null); });
     for(let i=0;i<extraCount;i++){ h+=blocHTML(`${dayKey}-extra${i}`,`Extra ${i+1}`,dayKey,i); }
-    h+=`</div><button class="addbloc" data-act="addbloc" data-k="${dayKey}">+ Afegir bloc</button></div>`;
+    h+=`</div><button class="addbloc" data-act="addbloc" data-k="${dayKey}">+ Afegir bloc</button>`;
+    const fv=STATE.forest[dayKey]||{};
+    h+=`<div class="forest">
+      <span>🌲</span>
+      <input type="number" min="0" inputmode="numeric" placeholder="Concentracions" data-act="forest" data-k="${dayKey}" data-camp="sessions" value="${fv.sessions??''}" />
+      <input type="number" min="0" inputmode="numeric" placeholder="Minuts reals" data-act="forest" data-k="${dayKey}" data-camp="minuts" value="${fv.minuts??''}" />
+    </div></div>`;
   });
   h+=`</div><div class="actlegend">`+ACTIVITATS.map(a=>`<span><i style="background:${a.color}"></i>${a.key}</span>`).join("")+`</div>`;
   return h;
