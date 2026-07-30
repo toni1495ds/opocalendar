@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="ca">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-status-bar-style" content="black" />
+<meta name="apple-mobile-web-app-title" content="Estudi 81/26" />
+<title>Seguiment d'estudi · Bomber 81/26</title>
+<link rel="stylesheet" href="css/main.css" />
+</head>
+<body>
+
+<!-- PORTA D'ACCÉS -->
+<div id="gate">
+  <div class="box">
+    <div class="eyebrow"><span class="bar"></span>Temari Bomber · 81/26</div>
+    <h2>Seguiment d'estudi</h2>
+    <p>Introdueix el teu codi d'accés per sincronitzar el progrés entre els teus dispositius.</p>
+    <input id="gatecode" type="password" inputmode="numeric" placeholder="· · · ·" autocomplete="off" />
+    <button id="gatebtn">Entrar</button>
+    <div class="err" id="gateerr"></div>
+  </div>
+</div>
+
+<!-- APP -->
+<div id="app" class="hidden">
+  <div id="syncbar">
+    <span id="syncdot"></span><span id="synctext">Connectant…</span>
+  </div>
+
+  <header>
+    <div class="htext">
+      <div class="eyebrow"><span class="bar"></span>Temari Bomber · 81/26</div>
+      <h1>El teu seguiment<br>d'estudi</h1>
+    </div>
+    <div class="hcount">
+      <div class="num" id="dies">—</div>
+      <div class="lbl">dies fins l'examen</div>
+    </div>
+  </header>
+
+  <div class="progress">
+    <div class="row">
+      <span class="t">Progrés global d'etapes</span>
+      <span class="p"><span id="pct">0</span><small>%</small></span>
+    </div>
+    <div class="track"><div class="fill" id="fill" style="width:0%"></div></div>
+    <div class="legend">
+      <span style="color:var(--muted)"><span id="st-fetes">0</span> / <span id="st-total">0</span> etapes</span>
+      <span style="color:var(--e-dom)">▪ <span id="st-dom">0</span> dominats</span>
+      <span style="color:var(--e-mig)">▪ <span id="st-mig">0</span> a mig</span>
+      <span style="color:var(--e-pend)">▪ <span id="st-pend">0</span> pendents</span>
+    </div>
+  </div>
+
+  <div class="tabs" id="tabs">
+    <button data-v="avui" class="on">Avui</button>
+    <button data-v="calendari">Calendari</button>
+    <button data-v="temes">Temes</button>
+    <button data-v="prioritat">Priorització ØPT1M</button>
+  </div>
+
+  <div id="view"></div>
+
+  <div class="foot">
+    <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center">
+      <button class="cbtn" id="btn-logout">Tancar sessió</button>
+    </div>
+    <div class="note">El progrés es guarda automàticament al núvol i se sincronitza entre tots els dispositius on entris amb el mateix codi. No cal desar res manualment.</div>
+  </div>
+</div>
+
+<script type="module" src="js/main.js"></script>
+</body>
+</html>

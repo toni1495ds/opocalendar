@@ -1,0 +1,26 @@
+import { $ } from "./helpers.js";
+import { CODI_ACCES } from "./config.js";
+import { render } from "./render.js";
+import { connectDoc } from "./sync.js";
+
+function obrirApp(){
+  $("#gate").classList.add("hidden");
+  $("#app").classList.remove("hidden");
+  render();
+  connectDoc();
+}
+
+function provarCodi(){
+  const v=$("#gatecode").value.trim();
+  if(v===CODI_ACCES){ sessionStorage.setItem("estudi_ok","1"); obrirApp(); }
+  else { $("#gateerr").textContent="Codi incorrecte."; $("#gatecode").value=""; }
+}
+
+export function wireAuth(){
+  $("#gatebtn").addEventListener("click",provarCodi);
+  $("#gatecode").addEventListener("keydown",e=>{ if(e.key==="Enter")provarCodi(); });
+
+  // si ja hem entrat en aquesta sessió, obre directe
+  if(sessionStorage.getItem("estudi_ok")==="1"){ obrirApp(); }
+  else { $("#gatecode").focus(); }
+}
