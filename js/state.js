@@ -1,5 +1,6 @@
 import { EMPTY } from "./data/etapes.js";
 import { ORDRE_ESTAT } from "./data/estats.js";
+import { ACTIVITATS } from "./data/activitats.js";
 import { queueSave } from "./sync.js";
 import { render } from "./render.js";
 
@@ -23,7 +24,18 @@ export function setCel(k,camp,val){
 }
 export function toggleFet(k){
   const cur=STATE.plan[k]||{};
-  STATE.plan[k]={...cur,fet:!cur.fet}; queueSave(); render();
+  const nowFet=!cur.fet;
+  STATE.plan[k]={...cur,fet:nowFet};
+  // Si el bloc té tema + una activitat que correspon a una etapa (Lectura, Mapa...),
+  // marcar-lo com fet actualitza també el progrés d'aquell tema a la pestanya Temes.
+  if(nowFet && cur.tema){
+    const act=ACTIVITATS.find(a=>a.key===cur.act);
+    if(act && act.etapa){
+      const temaData={...EMPTY,...(STATE.data[cur.tema]||{})};
+      if(!temaData[act.etapa]){ temaData[act.etapa]=true; STATE.data[cur.tema]=temaData; }
+    }
+  }
+  queueSave(); render();
 }
 export function addExtraBloc(dayKey){
   STATE.extra[dayKey]=(STATE.extra[dayKey]||0)+1; queueSave(); render();
