@@ -11,20 +11,8 @@
 </head>
 <body>
 
-<!-- PORTA D'ACCÉS -->
-<div id="gate">
-  <div class="box">
-    <div class="eyebrow"><span class="bar"></span>Temari Bomber · 81/26</div>
-    <h2>Seguiment d'estudi</h2>
-    <p>Introdueix el teu codi d'accés per sincronitzar el progrés entre els teus dispositius.</p>
-    <input id="gatecode" type="password" inputmode="numeric" placeholder="· · · ·" autocomplete="off" />
-    <button id="gatebtn">Entrar</button>
-    <div class="err" id="gateerr"></div>
-  </div>
-</div>
-
 <!-- APP -->
-<div id="app" class="hidden">
+<div id="app">
   <div id="syncbar">
     <span id="syncdot"></span><span id="synctext">Connectant…</span>
   </div>
@@ -65,10 +53,7 @@
   <div id="view"></div>
 
   <div class="foot">
-    <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center">
-      <button class="cbtn" id="btn-logout">Tancar sessió</button>
-    </div>
-    <div class="note">El progrés es guarda automàticament al núvol i se sincronitza entre tots els dispositius on entris amb el mateix codi. No cal desar res manualment.</div>
+    <div class="note">El progrés es guarda automàticament al núvol i se sincronitza entre tots els dispositius. No cal desar res manualment.</div>
   </div>
 </div>
 
