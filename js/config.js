@@ -6,3 +6,5 @@ export const firebaseConfig = {
   messagingSenderId: "828089349640",
   appId: "1:828089349640:web:78674d3bc7f737b3fdc3bd"
 };
+
+export const CODI_ACCES = "1434";

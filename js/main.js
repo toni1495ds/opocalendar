@@ -1,7 +1,5 @@
 import { wireEvents } from "./events.js";
-import { render } from "./render.js";
-import { connectDoc } from "./sync.js";
+import { wireAuth } from "./auth.js";
 
 wireEvents();
-render();
-connectDoc();
+wireAuth();

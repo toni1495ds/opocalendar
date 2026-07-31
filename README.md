@@ -11,7 +11,7 @@ index.html            Punt d'entrada: només marcatge, referencia css/ i js/
 css/
   main.css             Tots els estils
 js/
-  config.js            Credencials Firebase
+  config.js            Credencials Firebase + codi d'accés
   helpers.js           Utilitats petites (esc, $, iconSvg) sense estat
   dateUtils.js         Parseig de dates del calendari + "quin dia és avui"
   data/                Contingut estàtic del temari (no canvia en temps d'execució)
@@ -33,7 +33,8 @@ js/
     estadistiques.js      Resum: % temari, concentracions, hores, blocs fets/setmana
     shared.js             Marcatge compartit entre vistes (botons d'etapa)
   events.js            Cablejat d'esdeveniments DOM -> mutacions d'estat
-  main.js              Entry point: wireEvents() + render() + connectDoc()
+  auth.js              Porta d'accés (codi + sessionStorage)
+  main.js              Entry point: wireEvents() + wireAuth()
 ```
 
 ## Idea darrere la separació
@@ -52,9 +53,9 @@ Cal servir els fitxers per http (els mòduls ES no funcionen amb `file://`). Amb
 
 ## Configuració
 
-`js/config.js` ja té la configuració real del projecte Firebase `opocalendar-3ef5a`. Les regles de Firestore obren només el document `estudi/progres` (`allow read, write: if true`).
+`js/config.js` ja té la configuració real del projecte Firebase `opocalendar-3ef5a` i el codi d'accés (`CODI_ACCES`). Les regles de Firestore obren només el document `estudi/progres` (`allow read, write: if true`).
 
-No hi ha porta d'accés ni login: la pàgina carrega les dades directament en obrir-se. El repositori i la pàgina són públics — qualsevol amb l'enllaç veu i pot modificar les dades. És una decisió conscient (dades no sensibles, prioritat a la comoditat d'entrar des de l'iPad sense codi).
+Important: el codi d'accés és protecció superficial, no seguretat real — és visible en text pla per a qui obri `js/config.js` (el repositori és públic), i les regles de Firestore no exigeixen cap autenticació. Només evita que algú que trobi l'enllaç per casualitat vegi les dades d'un cop d'ull.
 
 ## Desplegament
 

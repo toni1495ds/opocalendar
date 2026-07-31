@@ -32,4 +32,9 @@ export function wireEvents(){
     if(a==="cel"){ setCel(el.dataset.k,el.dataset.camp,el.value); render(); }
     else if(a==="forest"){ setForest(el.dataset.k,el.dataset.camp,el.value); render(); }
   });
+
+  $("#btn-logout").addEventListener("click",()=>{
+    sessionStorage.removeItem("estudi_ok");
+    location.reload();
+  });
 }
