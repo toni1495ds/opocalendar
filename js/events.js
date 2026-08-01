@@ -1,5 +1,5 @@
 import { $ } from "./helpers.js";
-import { toggleEtapa, ciclarEstat, setEstat, setCel, toggleFet, addExtraBloc, removeExtraBloc, setForest, toggleTest50 } from "./state.js";
+import { toggleEtapa, ciclarEstat, setEstat, setCel, toggleFet, addExtraBloc, removeExtraBloc, setForest } from "./state.js";
 import { render, setVista } from "./render.js";
 import { setOrdreTemes, setFiltreTemes } from "./views/temes.js";
 import { setBlocPrio } from "./views/prioritat.js";
@@ -24,7 +24,6 @@ export function wireEvents(){
     else if(a==="fet")toggleFet(el.dataset.k);
     else if(a==="addbloc")addExtraBloc(el.dataset.k);
     else if(a==="rmbloc")removeExtraBloc(el.dataset.k,+el.dataset.idx);
-    else if(a==="test50")toggleTest50(el.dataset.k);
   });
 
   $("#view").addEventListener("change",e=>{
