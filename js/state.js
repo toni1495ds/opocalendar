@@ -50,3 +50,7 @@ export function removeExtraBloc(dayKey,idx){
 export function setForest(dayKey,camp,val){
   STATE.forest[dayKey]={...(STATE.forest[dayKey]||{}),[camp]:val}; queueSave();
 }
+export function toggleTest50(dayKey){
+  const cur=STATE.forest[dayKey]||{};
+  STATE.forest[dayKey]={...cur,test50:!cur.test50}; queueSave(); render();
+}

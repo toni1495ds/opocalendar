@@ -76,7 +76,9 @@ export function viewCalendari(){
       <span>🌲</span>
       <input type="number" min="0" step="1" inputmode="numeric" placeholder="Concentracions" data-act="forest" data-k="${dayKey}" data-camp="sessions" value="${fv.sessions??''}" />
       <input type="number" min="0" step="0.25" inputmode="decimal" placeholder="Hores reals" data-act="forest" data-k="${dayKey}" data-camp="hores" value="${fv.hores??''}" />
-    </div></div>`;
+    </div>
+    <button class="test50btn ${fv.test50?'on':''}" data-act="test50" data-k="${dayKey}">${fv.test50?'✓ Test de 50 preguntes fet':'○ Fer test mínim de 50 preguntes'}</button>
+    </div>`;
   });
   h+=`</div><div class="actlegend">`+ACTIVITATS.map(a=>`<span><i style="background:${a.color}"></i>${a.key}</span>`).join("")+`</div>`;
   return h;
