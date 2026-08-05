@@ -1,6 +1,6 @@
 # Seguiment d'estudi · Bomber 81/26
 
-App d'una sola pàgina (sense build step) per fer seguiment del temari, prioritzar temes, planificar el calendari d'estudi i registrar minuts reals amb Forest, amb sincronització via Firebase entre dispositius.
+App d'una sola pàgina (sense build step) per fer seguiment del temari, prioritzar temes, planificar el calendari d'estudi (i el dia d'avui, amb el mateix editor) i registrar minuts reals amb Forest per targeta, amb sincronització via Firebase entre dispositius.
 
 En viu: https://toni1495ds.github.io/opocalendar/
 
@@ -21,19 +21,28 @@ js/
     activitats.js
     setmanes.js
     dossier.js
-  state.js             Estat global (STATE: data/plan/extra/forest) + mutacions
+  state.js             Estat global (STATE: data/plan/extra/forest/amagats) + mutacions,
+                       incloent el trasllat automàtic de blocs no fets al dia següent
   stats.js             Càlculs derivats de l'estat (progrés, dies fins l'examen)
-  sync.js              Tot el que toca Firebase (connectar, desar, escoltar canvis)
+  sync.js              Tot el que toca Firebase (connectar, desar sense merge, escoltar
+                       canvis, forçar el desat pendent si es tanca/recarrega la pestanya)
   render.js            Dispatcher de vistes + actualització de la capçalera
   views/                Una vista = un fitxer = una pestanya de la UI
-    avui.js             El que toca fer avui (segons el planificat al calendari)
-    calendari.js         Planificació setmanal per blocs + registre Forest
-    temes.js              Llista completa del temari amb filtres i ordre
+    avui.js             Editor de blocs del dia d'avui (afegir/editar/esborrar targetes),
+                        igual que calendari.js però només per al dia actual
+    calendari.js         Planificació setmanal per blocs, amb drag&drop per reordenar-los
+    temes.js              Llista completa del temari, amb filtres i ordre (número/
+                          prioritat/hores invertides amb Forest)
     prioritat.js          Dossier ØPT1M ordenat per preguntes caigudes
-    estadistiques.js      Resum: % temari, concentracions, hores, blocs fets/setmana
-    shared.js             Marcatge compartit entre vistes (botons d'etapa)
-  events.js            Cablejat d'esdeveniments DOM -> mutacions d'estat
-  auth.js              Porta d'accés (codi + sessionStorage)
+    estadistiques.js      Resum: % temari, concentracions Forest (totals i per tema),
+                          nota mitjana dels tests, setmanes futures col·lapsades
+    shared.js             Marcatge compartit entre vistes: la targeta de bloc (tema +
+                          activitat + sessions Forest), la llista de tests del dia i
+                          els botons d'etapa
+  events.js            Cablejat d'esdeveniments DOM -> mutacions d'estat (clics, canvis
+                       de formulari i drag&drop)
+  auth.js              Porta d'accés (codi + sessionStorage, entra sol en arribar als
+                       4 dígits)
   main.js              Entry point: wireEvents() + wireAuth()
 ```
 
@@ -63,4 +72,4 @@ Important: el codi d'accés és protecció superficial, no seguretat real — é
 
 ## Idees futures (to-do)
 
-- **Importar CSV de Forest**: l'app Forest no té API pública ni integració en temps real, però sí permet exportar un CSV de l'historial de sessions des de la mateixa app. Es podria afegir un botó "Importa CSV" a Calendari/Estadístiques que llegeixi aquest fitxer i ompli soles les concentracions i minuts de cada dia, en lloc d'escriure-ho a mà.
+- **Importar CSV de Forest**: l'app Forest no té API pública ni integració en temps real, però sí permet exportar un CSV de l'historial de sessions des de la mateixa app. Es podria afegir un botó "Importa CSV" que llegeixi aquest fitxer i afegeixi soles les sessions (amb la seva durada real) a la targeta corresponent, en lloc de clicar-les a mà una per una.
