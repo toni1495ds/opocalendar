@@ -1,9 +1,9 @@
-import { TEMES } from "../data/temes.js";
 import { SETMANES, BLOCS } from "../data/setmanes.js";
 import { ACTIVITATS } from "../data/activitats.js";
 import { esc } from "../helpers.js";
 import { STATE } from "../state.js";
 import { parseDia, avui } from "../dateUtils.js";
+import { blocHTML, testsHTML } from "./shared.js";
 
 function computeSetmanaActual(){
   const today=avui();
@@ -17,29 +17,6 @@ const SETMANA_ACTUAL=computeSetmanaActual();
 
 let setmSel=SETMANA_ACTUAL;
 export function setSetmSel(v){ setmSel=v; }
-
-function blocHTML(k,label,dayKey,extraIdx){
-  const cel=STATE.plan[k]||{};
-  const act=ACTIVITATS.find(a=>a.key===cel.act);
-  const fet=!!cel.fet;
-  return `<div class="bloc ${fet?'fet':''}" style="border-left-color:${act?act.color:'var(--border)'}">
-    <div class="blochead">
-      <input class="bl" data-act="cel" data-k="${k}" data-camp="label" value="${esc(cel.label ?? label)}" />
-      <span style="display:flex;gap:4px;align-items:center">
-        <button class="fetbtn ${fet?'on':''}" data-act="fet" data-k="${k}" title="Marca com fet"></button>
-        ${extraIdx!=null?`<button class="rmbloc" data-act="rmbloc" data-k="${dayKey}" data-idx="${extraIdx}" title="Elimina aquest bloc">×</button>`:''}
-      </span>
-    </div>
-    <select data-act="cel" data-k="${k}" data-camp="tema">
-      <option value="">— Tema —</option>
-      ${TEMES.map(t=>`<option value="${t.id}" ${String(cel.tema)===String(t.id)?'selected':''}>T${t.id} ${esc(t.curt)}</option>`).join("")}
-    </select>
-    <select data-act="cel" data-k="${k}" data-camp="act" style="color:${act?act.color:'var(--text)'};font-weight:${act?600:400}">
-      <option value="">— Activitat —</option>
-      ${ACTIVITATS.map(a=>`<option value="${a.key}" ${cel.act===a.key?'selected':''}>${a.key}</option>`).join("")}
-    </select>
-  </div>`;
-}
 
 export function viewCalendari(){
   const w=SETMANES.find(x=>x.s===setmSel);
@@ -68,21 +45,12 @@ export function viewCalendari(){
     h+=`<div class="day ${isPast?'past':''} ${isToday?'today':''}">
       <div class="dayname ${isExamen?'examen':''}"><span class="dot"></span>${esc(dia)}${isToday?'<span class="todaytag">AVUI</span>':''}</div>
       <div class="blocs">`;
-    BLOCS.forEach(bloc=>{ h+=blocHTML(`${dayKey}-${bloc}`,bloc,dayKey,null); });
+    const amagats=STATE.amagats[dayKey]||[];
+    BLOCS.forEach(bloc=>{ if(!amagats.includes(bloc))h+=blocHTML(`${dayKey}-${bloc}`,bloc,dayKey,null); });
     for(let i=0;i<extraCount;i++){ h+=blocHTML(`${dayKey}-extra${i}`,`Extra ${i+1}`,dayKey,i); }
     h+=`</div><button class="addbloc" data-act="addbloc" data-k="${dayKey}">+ Afegir bloc</button>`;
-    const fv=STATE.forest[dayKey]||{};
-    h+=`<div class="forest">
-      <span>🌲</span>
-      <input type="number" min="0" step="1" inputmode="numeric" placeholder="Concentracions" data-act="forest" data-k="${dayKey}" data-camp="sessions" value="${fv.sessions??''}" />
-      <input type="number" min="0" step="0.25" inputmode="decimal" placeholder="Hores reals" data-act="forest" data-k="${dayKey}" data-camp="hores" value="${fv.hores??''}" />
-    </div>
-    <div class="forest">
-      <span>📝</span>
-      <input type="number" min="1" step="1" inputmode="numeric" placeholder="Preguntes (70 a l'examen real)" data-act="forest" data-k="${dayKey}" data-camp="preguntes" value="${fv.preguntes??''}" />
-      <input type="number" min="0" max="10" step="0.01" inputmode="decimal" placeholder="Nota" data-act="forest" data-k="${dayKey}" data-camp="nota" value="${fv.nota??''}" />
-    </div>
-    </div>`;
+    h+=testsHTML(dayKey);
+    h+=`</div>`;
   });
   h+=`</div><div class="actlegend">`+ACTIVITATS.map(a=>`<span><i style="background:${a.color}"></i>${a.key}</span>`).join("")+`</div>`;
   return h;

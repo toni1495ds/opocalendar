@@ -2,22 +2,33 @@ import { TEMES } from "../data/temes.js";
 import { ETAPES } from "../data/etapes.js";
 import { ESTATS, ORDRE_ESTAT } from "../data/estats.js";
 import { esc } from "../helpers.js";
-import { getT } from "../state.js";
+import { getT, STATE } from "../state.js";
 import { etapaHTML } from "./shared.js";
 
-let ordreTemes="prioritat", filtreTemes="tots";
+let ordreTemes="numero", filtreTemes="tots";
 export function setOrdreTemes(v){ ordreTemes=v; }
 export function setFiltreTemes(v){ filtreTemes=v; }
 
+function minutsForest(tid){
+  let m=0;
+  Object.values(STATE.plan).forEach(cel=>{
+    if(cel&&String(cel.tema)===String(tid)&&Array.isArray(cel.forest))m+=cel.forest.reduce((a,b)=>a+b,0);
+  });
+  return m;
+}
+
 export function viewTemes(){
-  let arr=TEMES.map(t=>({...t,s:getT(t.id)}));
+  let arr=TEMES.map(t=>({...t,s:getT(t.id),minuts:minutsForest(t.id)}));
   if(filtreTemes==="pendents")arr=arr.filter(t=>t.s.estat!=="verd");
   else if(filtreTemes==="nous")arr=arr.filter(t=>t.nou);
   if(ordreTemes==="prioritat")arr.sort((a,b)=>((b.preg==null?-1:b.preg)-(a.preg==null?-1:a.preg)));
+  else if(ordreTemes==="hores")arr.sort((a,b)=>b.minuts-a.minuts);
   else arr.sort((a,b)=>a.id-b.id);
-  let h=`<div class="controls"><span class="lbl">Ordena</span>
+  let h=`<div class="sechead"><div class="n">▤</div><div class="d">Tots els temes del temari amb el seu progrés. Marca l'estat i les etapes fetes de cadascun.</div></div>`;
+  h+=`<div class="controls"><span class="lbl">Ordena</span>
     <button class="cbtn ${ordreTemes==='prioritat'?'on':''}" data-act="ordre" data-v="prioritat">Prioritat</button>
     <button class="cbtn ${ordreTemes==='numero'?'on':''}" data-act="ordre" data-v="numero">Número</button>
+    <button class="cbtn ${ordreTemes==='hores'?'on':''}" data-act="ordre" data-v="hores">Hores</button>
     <span class="sep"></span>
     <button class="cbtn ${filtreTemes==='tots'?'on':''}" data-act="filtre" data-v="tots">Tots</button>
     <button class="cbtn ${filtreTemes==='pendents'?'on':''}" data-act="filtre" data-v="pendents">No dominats</button>
@@ -27,7 +38,7 @@ export function viewTemes(){
     const fetes=ETAPES.filter(e=>t.s[e.key]).length;
     h+=`<div class="item" style="border-left:3px solid ${ESTATS[t.s.estat].color}">
       <div class="top"><div style="min-width:0">
-        <div class="meta"><span class="tid">T${t.id}</span>${t.nou?'<span class="nou">NOU</span>':''}${t.preg!=null?`<span class="preg">${t.preg} preg.</span>`:'<span class="preg">sense ref.</span>'}<span class="preg">${fetes}/5</span></div>
+        <div class="meta"><span class="tid">T${t.id}</span>${t.nou?'<span class="nou">NOU</span>':''}${t.preg!=null?`<span class="preg">${t.preg} preg.</span>`:'<span class="preg">sense ref.</span>'}<span class="preg">${fetes}/5</span>${t.minuts>0?`<span class="preg">🌲 ${(t.minuts/60).toFixed(1)}h</span>`:''}</div>
         <div class="tnom" style="white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${esc(t.nom)}</div></div>
         <div class="estats">${ORDRE_ESTAT.map(es=>`<button class="${t.s.estat===es?'on':''}" data-act="estat" data-id="${t.id}" data-v="${es}" title="${ESTATS[es].nom}" style="background:${ESTATS[es].color};opacity:${t.s.estat===es?1:.3}"></button>`).join("")}</div>
       </div><div class="etapes">${ETAPES.map(e=>etapaHTML(t,e,false)).join("")}</div></div>`;

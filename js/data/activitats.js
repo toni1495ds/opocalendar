@@ -9,4 +9,5 @@ export const ACTIVITATS=[
  {key:"SIMULACRE",color:"#E24B4A"},
  {key:"REPAS",color:"#D4537E"},
  {key:"DESCANS",color:"#888780"},
+ {key:"DONAR CLASSE",color:"#8E44AD"},
 ];

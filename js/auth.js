@@ -19,6 +19,10 @@ function provarCodi(){
 export function wireAuth(){
   $("#gatebtn").addEventListener("click",provarCodi);
   $("#gatecode").addEventListener("keydown",e=>{ if(e.key==="Enter")provarCodi(); });
+  // Entra automàticament en arribar a la llargada del codi, sense haver de clicar "Entrar".
+  $("#gatecode").addEventListener("input",e=>{
+    if(e.target.value.trim().length>=CODI_ACCES.length)provarCodi();
+  });
 
   // si ja hem entrat en aquesta sessió, obre directe
   if(sessionStorage.getItem("estudi_ok")==="1"){ obrirApp(); }

@@ -8,7 +8,7 @@ export function viewPrioritat(){
   let arr=blocPrio==="tots"?DOSSIER:DOSSIER.filter(d=>d.bloc===blocPrio);
   arr=[...arr].sort((a,b)=>b.np-a.np);
   const maxNp=Math.max(...arr.map(d=>d.np),1);
-  let h=`<div class="sechead"><div class="n">§</div><div class="d">Dossier ØPT1M (referència 81/25): subtemes ordenats pel nombre de preguntes que han caigut a exàmens oficials. Estudia primer els de dalt.</div></div>`;
+  let h=`<div class="sechead"><div class="n">▲</div><div class="d">Dossier ØPT1M (referència 81/25): subtemes ordenats pel nombre de preguntes que han caigut a exàmens oficials. Estudia primer els de dalt.</div></div>`;
   h+=`<div class="weeks">`+
      `<button class="${blocPrio==='tots'?'on':''}" data-act="bloc" data-v="tots">Tots</button>`+
      BLOCS_DOSSIER.map(b=>`<button class="${blocPrio===b?'on':''}" data-act="bloc" data-v="${b}">${b}</button>`).join("")+`</div>`;
