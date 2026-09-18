@@ -7,7 +7,9 @@ export const ACTIVITATS=[
  {key:"NINJA",color:"#7F77DD",etapa:"ninja"},
  {key:"CLASSE",color:"#1D9E75",etapa:"classe"},
  {key:"SIMULACRE",color:"#E24B4A"},
- {key:"REPAS",color:"#D4537E"},
+ {key:"REPAS 1",color:"#D4537E",etapa:"repas1"},
+ {key:"REPAS 2",color:"#D4537E",etapa:"repas2"},
+ {key:"REPAS 3",color:"#D4537E",etapa:"repas3"},
  {key:"DESCANS",color:"#888780"},
- {key:"DONAR CLASSE",color:"#8E44AD"},
+ {key:"DONAR CLASSE",color:"#8E44AD",etapa:"donar"},
 ];

@@ -38,7 +38,7 @@ export function viewTemes(){
     const fetes=ETAPES.filter(e=>t.s[e.key]).length;
     h+=`<div class="item" style="border-left:3px solid ${ESTATS[t.s.estat].color}">
       <div class="top"><div style="min-width:0">
-        <div class="meta"><span class="tid">T${t.id}</span>${t.nou?'<span class="nou">NOU</span>':''}${t.preg!=null?`<span class="preg">${t.preg} preg.</span>`:'<span class="preg">sense ref.</span>'}<span class="preg">${fetes}/5</span>${t.minuts>0?`<span class="preg">🌲 ${(t.minuts/60).toFixed(1)}h</span>`:''}</div>
+        <div class="meta"><span class="tid">T${t.id}</span>${t.nou?'<span class="nou">NOU</span>':''}${t.preg!=null?`<span class="preg">${t.preg} preg.</span>`:'<span class="preg">sense ref.</span>'}<span class="preg">${fetes}/${ETAPES.length}</span>${t.minuts>0?`<span class="preg">🌲 ${(t.minuts/60).toFixed(1)}h</span>`:''}</div>
         <div class="tnom" style="white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${esc(t.nom)}</div></div>
         <div class="estats">${ORDRE_ESTAT.map(es=>`<button class="${t.s.estat===es?'on':''}" data-act="estat" data-id="${t.id}" data-v="${es}" title="${ESTATS[es].nom}" style="background:${ESTATS[es].color};opacity:${t.s.estat===es?1:.3}"></button>`).join("")}</div>
       </div><div class="etapes">${ETAPES.map(e=>etapaHTML(t,e,false)).join("")}</div></div>`;

@@ -22,7 +22,13 @@ export function ciclarEstat(id){
   setEstat(id,ORDRE_ESTAT[(i+1)%ORDRE_ESTAT.length]);
 }
 export function setCel(k,camp,val){
-  STATE.plan[k]={...(STATE.plan[k]||{}),[camp]:val}; queueSave();
+  const prev=STATE.plan[k]||{};
+  // Canviar tema o activitat d'un bloc ja fet el torna a deixar com a pendent
+  // (abans es quedava marcat com fet amb l'activitat nova).
+  if((camp==="tema"||camp==="act")&&prev.fet&&String(prev[camp]??"")!==String(val)){
+    STATE.plan[k]={...prev,[camp]:val,fet:false};
+  } else STATE.plan[k]={...prev,[camp]:val};
+  queueSave();
 }
 export function toggleFet(k){
   const cur=STATE.plan[k]||{};

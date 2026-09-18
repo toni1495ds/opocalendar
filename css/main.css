@@ -71,7 +71,12 @@ h1{font-size:clamp(26px,5vw,42px);font-weight:700;letter-spacing:-.03em;line-hei
   letter-spacing:.01em;border:1.5px solid var(--border);background:transparent;color:var(--muted);transition:.12s}
 .etapa.on{border-color:var(--accent);background:var(--accent);color:#fff}
 .etapa.seg{border-color:var(--border2);color:var(--text)}
-.etapa svg{width:13px;height:13px}
+.etapa{position:relative;overflow:visible}
+.etapa svg{width:13px;height:13px;flex-shrink:0}
+/* Temes: les 9 etapes caben en una sola línia; en pantalles estretes tornen a fer salt de línia. */
+.list>.item .etapes{flex-wrap:nowrap;gap:6px}
+.list>.item .etapa{flex:1 1 0;justify-content:center;white-space:nowrap;padding:6px 6px;gap:4px;font-size:11px}
+@media(max-width:1000px){.list>.item .etapes{flex-wrap:wrap}.list>.item .etapa{flex:0 1 auto;padding:6px 11px;font-size:12px}}
 
 .list{display:flex;flex-direction:column;border:1px solid var(--border)}
 .list>.item{background:var(--card);padding:12px 14px}

@@ -5,6 +5,7 @@ import { firebaseConfig } from "./config.js";
 import { $ } from "./helpers.js";
 import { STATE, rolloverUnfinished } from "./state.js";
 import { render } from "./render.js";
+import { EMPTY } from "./data/etapes.js";
 
 let db=null, docRef=null, unsub=null, saveTimer=null;
 let firebaseOk=false, primerSnapshot=true;
@@ -61,6 +62,12 @@ export function connectDoc(){
       const d=snap.data();
       // només sobreescrivim si ve del núvol i no estem enmig d'un desat
       STATE.data=d.data||{}; STATE.plan=d.plan||{}; STATE.extra=d.extra||{}; STATE.forest=d.forest||{}; STATE.amagats=d.amagats||{};
+      // Migració: l'antic REPAS passa a REPAS 1, i si ja estava fet marca el Repàs 1 del tema.
+      Object.values(STATE.plan).forEach(c=>{
+        if(!c||c.act!=="REPAS")return;
+        c.act="REPAS 1";
+        if(c.fet&&c.tema)STATE.data[c.tema]={...EMPTY,...(STATE.data[c.tema]||{}),repas1:true};
+      });
       if(primerSnapshot){ primerSnapshot=false; rolloverUnfinished(); }
       render();
     }
