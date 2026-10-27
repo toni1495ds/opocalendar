@@ -1,5 +1,5 @@
 import { $ } from "./helpers.js";
-import { toggleEtapa, ciclarEstat, setEstat, setCel, toggleFet, addExtraBloc, removeExtraBloc, addForestSession, removeForestSession, addTest, removeTest, setTestField, removeBaseBloc, swapBlocs } from "./state.js";
+import { toggleEtapa, ciclarEstat, setEstat, setCel, toggleFet, addExtraBloc, removeExtraBloc, addForestSession, removeForestSession, addTest, removeTest, setTestField, removeBaseBloc, swapBlocs, setExamData } from "./state.js";
 import { render, setVista } from "./render.js";
 import { setOrdreTemes, setFiltreTemes } from "./views/temes.js";
 import { setBlocPrio } from "./views/prioritat.js";
@@ -77,6 +77,8 @@ export function wireEvents(){
   });
 
   wireDragDrop();
+
+  $("#examdata").addEventListener("change",e=>{ setExamData(e.target.value); });
 
   $("#btn-logout").addEventListener("click",()=>{
     sessionStorage.removeItem("estudi_ok");

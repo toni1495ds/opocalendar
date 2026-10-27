@@ -32,7 +32,7 @@ async function desaAra(){
   // claus esborrades localment (targetes eliminades) també desapareguin al núvol.
   // Amb merge:true, Firestore fa un merge profund dels mapes niats i mai esborra
   // una clau que simplement no s'envia, així que una targeta esborrada tornava a aparèixer.
-  try{ await setDoc(docRef,{data:STATE.data,plan:STATE.plan,extra:STATE.extra,forest:STATE.forest,amagats:STATE.amagats,updated:Date.now()}); setSync("ok","Sincronitzat"); }
+  try{ await setDoc(docRef,{data:STATE.data,plan:STATE.plan,extra:STATE.extra,forest:STATE.forest,amagats:STATE.amagats,config:STATE.config,updated:Date.now()}); setSync("ok","Sincronitzat"); }
   catch(e){ console.error(e); setSync("err","Error desant"); }
 }
 
@@ -61,7 +61,7 @@ export function connectDoc(){
     if(snap.exists()){
       const d=snap.data();
       // només sobreescrivim si ve del núvol i no estem enmig d'un desat
-      STATE.data=d.data||{}; STATE.plan=d.plan||{}; STATE.extra=d.extra||{}; STATE.forest=d.forest||{}; STATE.amagats=d.amagats||{};
+      STATE.data=d.data||{}; STATE.plan=d.plan||{}; STATE.extra=d.extra||{}; STATE.forest=d.forest||{}; STATE.amagats=d.amagats||{}; STATE.config=d.config||{};
       // Migració: l'antic REPAS passa a REPAS 1, i si ja estava fet marca el Repàs 1 del tema.
       Object.values(STATE.plan).forEach(c=>{
         if(!c||c.act!=="REPAS")return;

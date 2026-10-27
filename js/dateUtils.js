@@ -1,8 +1,10 @@
-// Totes les dates del calendari d'estudi cauen dins del mateix any (2026),
-// per això el mes/dia n'hi ha prou per reconstruir un Date comparable.
+// El calendari d'estudi va de juliol/2026 a gener/2027, així que el mes sol
+// no basta per saber l'any: mesos de gener a juny cauen el 2027, la resta el 2026.
 export function parseDia(diaStr){
   const m=diaStr.match(/(\d{2})\/(\d{2})/);
-  return new Date(2026, parseInt(m[2],10)-1, parseInt(m[1],10));
+  const mes=parseInt(m[2],10), dia=parseInt(m[1],10);
+  const any=mes<=6?2027:2026;
+  return new Date(any, mes-1, dia);
 }
 export function avui(){
   const d=new Date(); d.setHours(0,0,0,0); return d;

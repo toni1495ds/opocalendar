@@ -1,9 +1,15 @@
 import { TEMES } from "./data/temes.js";
 import { ETAPES } from "./data/etapes.js";
-import { getT } from "./state.js";
+import { getT, STATE } from "./state.js";
 
+export const EXAM_DATA_DEFECTE="2027-01-30";
+
+export function examData(){
+  return STATE.config.examData || EXAM_DATA_DEFECTE;
+}
 export function diesExamen(){
-  const ex=new Date(2026,10,14); const a=new Date(); a.setHours(0,0,0,0);
+  const [y,m,d]=examData().split("-").map(Number);
+  const ex=new Date(y,m-1,d); const a=new Date(); a.setHours(0,0,0,0);
   return Math.max(0,Math.round((ex-a)/86400000));
 }
 

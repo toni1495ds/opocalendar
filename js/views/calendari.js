@@ -4,6 +4,12 @@ import { esc } from "../helpers.js";
 import { STATE } from "../state.js";
 import { parseDia, avui } from "../dateUtils.js";
 import { blocHTML, testsHTML } from "./shared.js";
+import { examData } from "../stats.js";
+
+function parseExamData(){
+  const [y,m,d]=examData().split("-").map(Number);
+  return new Date(y,m-1,d);
+}
 
 function computeSetmanaActual(){
   const today=avui();
@@ -28,13 +34,14 @@ export function viewCalendari(){
     return `<button class="${setmSel===x.s?'on':''} ${past?'past':''}" data-act="setm" data-v="${x.s}">S${x.s}</button>`;
   }).join("")+`</div>`;
   h+=`<div class="weeklbl">Setmana ${setmSel} · ${w.rang}${setmSel!==SETMANA_ACTUAL?`<button class="jumptoday" data-act="setm" data-v="${SETMANA_ACTUAL}">Anar a avui</button>`:''}</div>`;
+  const examDate=parseExamData();
   const diesIdx=w.dies.map((dia,di)=>({dia,di,date:parseDia(dia)}));
   const propers=diesIdx.filter(x=>x.date>=today);
   const passats=diesIdx.filter(x=>x.date<today);
   const ordre=[...propers,...passats];
   h+=`<div class="list">`;
   ordre.forEach(({dia,di,date},i)=>{
-    const isExamen=dia.includes("EXAMEN");
+    const isExamen=date.getTime()===examDate.getTime();
     const isPast=date<today;
     const isToday=date.getTime()===today.getTime();
     const dayKey=`${setmSel}-${di}`;
@@ -43,7 +50,7 @@ export function viewCalendari(){
       h+=`<div class="pastsep">Dies anteriors d'aquesta setmana</div>`;
     }
     h+=`<div class="day ${isPast?'past':''} ${isToday?'today':''}">
-      <div class="dayname ${isExamen?'examen':''}"><span class="dot"></span>${esc(dia)}${isToday?'<span class="todaytag">AVUI</span>':''}</div>
+      <div class="dayname ${isExamen?'examen':''}"><span class="dot"></span>${esc(dia)}${isExamen?' · EXAMEN':''}${isToday?'<span class="todaytag">AVUI</span>':''}</div>
       <div class="blocs">`;
     const amagats=STATE.amagats[dayKey]||[];
     BLOCS.forEach(bloc=>{ if(!amagats.includes(bloc))h+=blocHTML(`${dayKey}-${bloc}`,bloc,dayKey,null); });

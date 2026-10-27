@@ -10,7 +10,8 @@ export function viewAvui(){
 
   const info=trobaAvui(SETMANES);
   if(!info){
-    h+=`<div class="card" style="color:var(--muted);font-size:13px">Avui és fora del període de temari (27/07 – 14/11).</div>`;
+    const inici=SETMANES[0].dies[0], fi=SETMANES[SETMANES.length-1].dies.slice(-1)[0];
+    h+=`<div class="card" style="color:var(--muted);font-size:13px">Avui és fora del període de temari (${inici.slice(-5)} – ${fi.slice(-5)}).</div>`;
     return h;
   }
 

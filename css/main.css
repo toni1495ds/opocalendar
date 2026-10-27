@@ -35,6 +35,9 @@ h1{font-size:clamp(26px,5vw,42px);font-weight:700;letter-spacing:-.03em;line-hei
   padding-bottom:16px;padding-left:24px;border-left:1px solid var(--border)}
 .hcount .num{font-size:clamp(40px,9vw,52px);font-weight:700;color:var(--accent);line-height:.9;letter-spacing:-.04em}
 .hcount .lbl{font-family:var(--mono);font-size:10px;color:var(--muted);margin-top:6px;letter-spacing:.1em;text-transform:uppercase}
+.examdata{margin-top:6px;background:transparent;border:1px solid var(--border2);color:var(--muted);
+  font-family:var(--mono);font-size:11px;padding:3px 6px;align-self:flex-end;color-scheme:dark}
+.examdata:hover,.examdata:focus{border-color:var(--accent);color:var(--text)}
 
 .progress{border-bottom:1px solid var(--border);padding:18px 0;margin-bottom:22px}
 .progress .row{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:10px}
@@ -107,10 +110,13 @@ h1{font-size:clamp(26px,5vw,42px);font-weight:700;letter-spacing:-.03em;line-hei
 .prio-tag{flex-shrink:0;display:flex;align-items:center;padding-right:14px}
 .prio-tag span{font-family:var(--mono);font-size:10px;font-weight:600;padding:2px 8px;border:1px solid;letter-spacing:.04em}
 
-.weeks{display:flex;border:1px solid var(--border);margin-bottom:12px;flex-wrap:wrap}
-.weeks button{flex:1 1 auto;padding:5px 8px;border:none;background:transparent;color:var(--muted);
+/* Grid en lloc de flex: totes les files comparteixen el mateix ample de columna,
+   així l'última fila (sovint incompleta) no estira els seus botons per omplir l'espai. */
+.weeks{display:grid;grid-template-columns:repeat(auto-fill,minmax(46px,1fr));
+  border:1px solid var(--border);border-right:none;border-bottom:none;margin-bottom:12px}
+.weeks button{padding:5px 4px;border:none;border-right:1px solid var(--border);border-bottom:1px solid var(--border);
+  background:transparent;color:var(--muted);text-align:center;
   font-family:var(--mono);font-size:11.5px;font-weight:600;letter-spacing:.03em}
-.weeks button+button{border-left:1px solid var(--border)}
 .weeks button.on{background:var(--accent);color:#fff}
 .weeks button.past{opacity:.4}
 .weeks button.past.on{opacity:1}

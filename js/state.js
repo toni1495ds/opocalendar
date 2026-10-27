@@ -6,9 +6,13 @@ import { parseDia, avui } from "./dateUtils.js";
 import { queueSave } from "./sync.js";
 import { render } from "./render.js";
 
-export let STATE={ data:{}, plan:{}, extra:{}, forest:{}, amagats:{} };
+export let STATE={ data:{}, plan:{}, extra:{}, forest:{}, amagats:{}, config:{} };
 
 export const getT=(id)=> STATE.data[id] || EMPTY;
+
+export function setExamData(val){
+  STATE.config={...STATE.config,examData:val}; queueSave(); render();
+}
 
 export function toggleEtapa(id,key){
   const cur={...EMPTY,...(STATE.data[id]||{})}; cur[key]=!cur[key];

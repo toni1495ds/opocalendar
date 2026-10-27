@@ -1,5 +1,5 @@
 import { $ } from "./helpers.js";
-import { diesExamen, stats } from "./stats.js";
+import { diesExamen, examData, stats } from "./stats.js";
 import { viewAvui } from "./views/avui.js";
 import { viewTemes } from "./views/temes.js";
 import { viewPrioritat } from "./views/prioritat.js";
@@ -11,6 +11,7 @@ export function setVista(v){ vista=v; }
 
 function renderHeader(){
   $("#dies").textContent=diesExamen();
+  const ed=$("#examdata"); if(ed&&document.activeElement!==ed)ed.value=examData();
   const s=stats();
   $("#pct").textContent=s.pct; $("#fill").style.width=s.pct+"%";
   $("#st-fetes").textContent=s.fetes; $("#st-total").textContent=s.total;
